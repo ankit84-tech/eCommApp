@@ -5,15 +5,14 @@ const usersSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true
-  }
+  },
   password: {
     type: String,
     required: true
+  },
+  cart: {
+    type: Array
   }
-  cart: [{
-    productId: String,
-    quantity: Number
-  }]
 })
 
 module.exports = mongoose.model("Users", usersSchema)

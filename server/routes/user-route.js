@@ -1,59 +1,63 @@
 var express = require("express");
 var router = express.Router()
-var fs = require("fs");
-
-/*
-var Orders
-fs.readFile("./Database/Orders.json", (err, data)=> {
-  if (err) {
-    console.log(err)
-  }
+var Users = require("../Database/Users-Schema");
+var Orders = require("../Database/Orders-Schema");
 
 
-  Orders = JSON.parse(data)
-  console.log(Orders)
-
-})
-
-*/
 ///---add to cart -->
 router.post("/add-to-cart", (req, res)=> {
   var {
     username,
     productID,
-    count
+    quantity
   } = req.body
 
-  if (!username||!productID||!count) {
-    res.send("wtf are u doing")
-  }
+  if (!username||!productID||!quantity) {
+    res.send("wtf are u doing")}
 
-
-
-  res.send(Users)
-
+  Users.findOneAndUpdate({
+    username: username
+  }, {
+    cart: {
+      productId: productID,
+      quantity: quantity
+    }}, (err, data)=> {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send("added to cart")
+    }
+  })
 
 })
 
 
 /// ---place order -->
-router.post("/place_order", (req, res)=> {
-
-  /* var {
-    user, product
+router.post("/place-order", (req, res)=> {
+  var {
+    username, productID, quantity
   } = req.body;
 
-    if (!user || !product) {
+  if (! username || !productID, !quantity) {
     res.send("wtf are u doing")
   }
-  var order = {
-    user: user,
-    product: product
-  }
 
-  Orders.push(order)
-*/
-  res.send(user)
+  var newOrder = new Orders({
+    username: username,
+    productID: productID,
+    quantity: quantity
+  })
+
+  newOrder.save((err, data)=> {
+    if (err) {
+      res.send("err")
+    } else {
+      res.send(data)
+    }
+  })
+
+
+
 
 
 })
