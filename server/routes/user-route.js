@@ -1,65 +1,25 @@
 var express = require("express");
 var router = express.Router()
-var Users = require("../Database/Users-Schema");
+var User = require("../Database/Users-Schema");
+var UserCart = require("../Database/cartItems");
 var Orders = require("../Database/Orders-Schema");
+var homeCont = require("../controller/home")
 
 
 ///---add to cart -->
-router.post("/add-to-cart", (req, res)=> {
-  var {
-    username,
-    productID,
-    quantity
-  } = req.body
+router.post("/cart", homeCont.add_to_cart)
 
-  if (!username||!productID||!quantity) {
-    res.send("wtf are u doing")}
+//get user's cart items
 
-  Users.findOneAndUpdate({
-    username: username
-  }, {
-    cart: {
-      productId: productID,
-      quantity: quantity
-    }}, (err, data)=> {
-    if (err) {
-      res.send(err)
-    } else {
-      res.send("added to cart")
-    }
-  })
+router.get("/cart/:userid", homeCont.user_cart)
 
-})
+/// delete user's cart item
+
+router.delete("/cart/:userId/:cartItemId", homeCont.delete_user_cart)
+
 
 
 /// ---place order -->
-router.post("/place-order", (req, res)=> {
-  var {
-    username, productID, quantity
-  } = req.body;
-
-  if (! username || !productID, !quantity) {
-    res.send("wtf are u doing")
-  }
-
-  var newOrder = new Orders({
-    username: username,
-    productID: productID,
-    quantity: quantity
-  })
-
-  newOrder.save((err, data)=> {
-    if (err) {
-      res.send("err")
-    } else {
-      res.send(data)
-    }
-  })
-
-
-
-
-
-})
+router.post("/place-order", homeCont.placeOrder)
 
 module.exports = router;
