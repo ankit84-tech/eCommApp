@@ -28,7 +28,9 @@ app.use("/admin", require("./routes/admin"))
 app.use("/auth", require("./routes/auth-route"))
 app.use("/home", require("./routes/user-route"))
 
-
+/// settings up views
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
 
 /// ---db connection-->

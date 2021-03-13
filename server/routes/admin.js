@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var adminCont = require("../controller/admin");
-//var testAuthMiddle = require("../Extras/adminMiddle")
+//var middlewere = require("../Extras/adminMiddle")
 
 //get all orders
 router.get("/all-orders", adminCont.get_all_orders)
@@ -32,7 +32,8 @@ router.put("/item/:id", adminCont.update_item)
 router.delete("/item/:id", adminCont.delete_item)
 
 
-
+//get total count of users
+router.get("/count-users", adminCont.count_users)
 
 
 module.exports = router;

@@ -23,8 +23,8 @@ router.post("/reg-user", authCont.register_user)
 //login user
 router.post("/login-user", authCont.login_user)
 
-
-
+//logout user
+router.get("/logout-user", authCont.logout_user)
 
 
 

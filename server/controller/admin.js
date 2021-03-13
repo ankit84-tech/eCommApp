@@ -1,5 +1,6 @@
 var Product = require("../Database/Products-Schema");
 var Orders = require("../Database/Orders-Schema");
+var Users = require("../Database/Users-Schema");
 
 
 class adminController {
@@ -133,19 +134,7 @@ class adminController {
 
         })
       })
-
-
-
-
   }
-
-
-
-
-
-
-
-
 
   //delete item
   delete_item(req, res) {
@@ -159,6 +148,21 @@ class adminController {
         res.send(err)
       }
       res.send("deleted")
+    })
+  }
+
+  //count users
+
+  count_users(req,
+    res) {
+    Users.count((err, data)=> {
+      if (err) {
+        res.status(500).send(err)
+      } else {
+        res.send({
+          count: data
+        })
+      }
     })
   }
 

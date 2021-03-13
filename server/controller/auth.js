@@ -127,6 +127,13 @@ class authController {
     })
 
   }
+  ///logout user
+
+  logout_user(req,
+    res) {
+    res.cookie("token",
+      "").send("user logged out successfully")
+  }
 
 
 }
