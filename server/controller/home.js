@@ -1,15 +1,27 @@
 var User = require("../Database/Users-Schema");
-var UserCart = require("../Database/cartItems");
 var Orders = require("../Database/Orders-Schema");
 var homeCont = require("../controller/home")
-
+var Product = require("../Database/Products-Schema")
 
 
 class homeController {
 
+  ///user profile --user id will come from middlewere use that to find user
+  user_profile(req, res) {
+    User.find({
+      username: "cLancer"
+    }, (err, data)=> {
+      if (err) {
+        res.send(err)
+      } else {
+        res.send(data)
+      }
+    })
+  }
 
   /// ---place order -->
-  placeOrder(req, res) {
+  placeOrder(req,
+    res) {
     var {
       username,
       productID,
@@ -48,37 +60,24 @@ class homeController {
     if (!username||!productID||!quantity) {
       res.status(400).send("wtf are u doing")}
 
-    var add_cart = new UserCart({
-      user: username,
-      productID: productID,
-      quantity: quantity
-
-    })
-
-    add_cart.save((err)=> {
+    User.updateOne({
+      username: username
+    }, {
+      $push: {
+        cart: {
+          productId: productID,
+          quantity: quantity
+        }}}, (err, data)=> {
       if (err) {
-        res.status(500).send(err)
+        res.send(err.toString())
       } else {
-        res.send("added to cart")
+        res.send(data)
       }
     })
 
   }
 
-  //get user's cart items
-  user_cart(req,
-    res) {
-    UserCart.find({
-      userId: req.params.id
-    },
-      (err, data)=> {
-        if (err) {
-          res.status(500).send(err)
-        } else {
-          res.send(data)
-        }
-      })
-  }
+
 
   /// delete user's cart item
 
@@ -103,9 +102,40 @@ class homeController {
     }
   }
 
+  //review on products
+  review_product(req,
+    res) {
+    var {
+      userId,
+      productId,
+      review
+    } = req.body
+
+    if (!userId||!review ||!productId) {
+      res.status(400).send("wtf are u doing")
+    }
+
+    Product.updateOne({
+      _id: productId
+    }, {
+      $push: {
+        reviews: {
+          reviewerId: userId,
+          review: review
+        }
+      }
+    }, (err, data)=> {
+      if (err) {
+        res.status(500).send(err)
+      } else {
+        res.send(data)
+      }
+    })
+
+  }
+
 
 
 }
-
 
 module.exports = new homeController()

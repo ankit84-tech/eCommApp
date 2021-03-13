@@ -10,7 +10,14 @@ const productSchema = mongoose.Schema({
   },
   prise: {
     type: Number, required: true
-  }
+  },
+  reviews: [{
+    reviewerId: {
+      type: String,
+      required: true
+    },
+    review: String
+  }]
 })
 
 

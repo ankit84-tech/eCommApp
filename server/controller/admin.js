@@ -44,12 +44,9 @@ class adminController {
 
     Product.find((err, data)=> {
       if (err) {
-        console.log(err)
         res.status(500).send(err)
       }
       res.send(data)
-      console.log(data)
-
     })
 
   }
@@ -64,11 +61,9 @@ class adminController {
     },
       (err, data)=> {
         if (err) {
-          console.log(err)
           res.status(500).send(err)
         }
         res.send(data)
-        console.log(data)
 
       })
   }
@@ -151,11 +146,36 @@ class adminController {
     })
   }
 
-  //count users
+  //delete all items
+  delete_all(req,
+    res) {
+    Product.remove((err, data)=> {
+      if (err) {
+        res.status(500).send(err)
+      } else {
+        res.send("all items deleted")
+      }
+    })
+  }
 
+  ///count users
   count_users(req,
     res) {
     Users.count((err, data)=> {
+      if (err) {
+        res.status(500).send(err)
+      } else {
+        res.send({
+          count: data
+        })
+      }
+    })
+  }
+
+  ///count products
+  count_products(req,
+    res) {
+    Product.count((err, data)=> {
       if (err) {
         res.status(500).send(err)
       } else {

@@ -9,7 +9,17 @@ const usersSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
-})
+  },
+  cart: [{
+    productId: {
+      type: String,
+      required: true,
+    },
+    quantity: {
+      type: Number,
+      default: 1
+      }
+    }]
+  })
 
-module.exports = mongoose.model("Users", usersSchema)
+  module.exports = mongoose.model("Users", usersSchema)

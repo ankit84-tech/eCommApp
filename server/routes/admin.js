@@ -31,9 +31,16 @@ router.put("/item/:id", adminCont.update_item)
 //delete item route
 router.delete("/item/:id", adminCont.delete_item)
 
+//delete all items
+router.delete("/item", adminCont.delete_all)
+
 
 //get total count of users
 router.get("/count-users", adminCont.count_users)
+
+
+//get total count of products
+router.get("/count-products", adminCont.count_products)
 
 
 module.exports = router;

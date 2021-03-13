@@ -26,7 +26,8 @@ app.use(bodyparser.json())
 ///---all routes -->
 app.use("/admin", require("./routes/admin"))
 app.use("/auth", require("./routes/auth-route"))
-app.use("/home", require("./routes/user-route"))
+app.use("/user", require("./routes/user-route"))
+app.use("/show-admin", require("./routes/showAdmin"))
 
 /// settings up views
 app.set('views', path.join(__dirname, 'views'));
