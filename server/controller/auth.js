@@ -118,11 +118,14 @@ class authController {
     }, (err, data)=> {
       if (err) {
         res.status(500).send("err ")
-      }
-      if (!data) {
+      } else if (!data) {
         res.status(400).send("user not found")
       } else {
-        res.send(data)
+        const token = jwt.sign({
+          userId: data._id,
+          role: process.env.USERROLE
+        }, process.env.TOKENKEY)
+        res.cookie("token", token).send("logged in successfully")
       }
     })
 

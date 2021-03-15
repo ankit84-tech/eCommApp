@@ -75,13 +75,21 @@ class adminController {
     var {
       modelName,
       brandName,
-      prise
+      prise,
+      rom, ram,
+      batteryCap,
+      camera
     } = req.body;
 
     const newProduct = new Product({
       modelName: modelName,
       brandName: brandName,
-      prise: prise
+      prise: prise,
+      rom: rom.split(" "),
+      ram: ram.split(" "),
+      batteryCap: batteryCap,
+      camera: camera.split(" ")
+
     })
     newProduct.save((err, result)=> {
       if (err) {

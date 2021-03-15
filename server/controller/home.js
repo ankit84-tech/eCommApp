@@ -9,7 +9,7 @@ class homeController {
   ///user profile --user id will come from middlewere use that to find user
   user_profile(req, res) {
     User.find({
-      username: "cLancer"
+      _id: req.user.userId
     }, (err, data)=> {
       if (err) {
         res.send(err)
@@ -23,17 +23,16 @@ class homeController {
   placeOrder(req,
     res) {
     var {
-      username,
       productID,
       quantity
     } = req.body;
 
-    if (! username || !productID, !quantity) {
+    if (!productID, !quantity) {
       res.status(400).send("wtf are u doing")
     }
 
     var newOrder = new Orders({
-      username: username,
+      userId: req.user.userId,
       productID: productID,
       quantity: quantity
     })
@@ -52,16 +51,15 @@ class homeController {
   add_to_cart (req,
     res) {
     var {
-      username,
       productID,
       quantity
     } = req.body
 
-    if (!username||!productID||!quantity) {
+    if (!productID||!quantity) {
       res.status(400).send("wtf are u doing")}
 
     User.updateOne({
-      username: username
+      _id: req.user.userId
     }, {
       $push: {
         cart: {
@@ -77,41 +75,36 @@ class homeController {
 
   }
 
+  ///get all cart item
 
+  all_cart_item(req,
+    res) {
+    User.findOne({
+      _id: req.user.userId
+    },
+      (err, data)=> {
+        if (err) {
+          res.status(500).send(err)
+        } else {
+          res.send(data.cart)
+        }
+      })
+  }
 
   /// delete user's cart item
 
   delete_user_cart(req,
-    res) {
-    var item = cartItems.find({
-      userId: req.params.userId,
-      _id: req.params.cartItemI
-    })
-
-    if (!item) {
-      res.status(400).send("cart item not found..")
-    } else {
-      item.remove((err, data)=> {
-        if (err) {
-          res.status(500).send(err)
-        } else {
-          res.send("cart item deleted..")
-        }
-
-      })
-    }
-  }
+    res) {}
 
   //review on products
   review_product(req,
     res) {
     var {
-      userId,
       productId,
       review
     } = req.body
 
-    if (!userId||!review ||!productId) {
+    if (!review ||!productId) {
       res.status(400).send("wtf are u doing")
     }
 
@@ -120,7 +113,7 @@ class homeController {
     }, {
       $push: {
         reviews: {
-          reviewerId: userId,
+          reviewerId: req.user.userId,
           review: review
         }
       }

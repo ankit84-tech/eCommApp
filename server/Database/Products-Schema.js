@@ -11,6 +11,14 @@ const productSchema = mongoose.Schema({
   prise: {
     type: Number, required: true
   },
+  rom: {
+    type: Array
+  },
+  ram: {
+    type: Array
+  },
+  batteryCap: Number,
+  camera: Array,
   reviews: [{
     reviewerId: {
       type: String,
