@@ -56,7 +56,7 @@ class adminController {
   get_single_item(req,
     res) {
 
-    Product.find({
+    Product.findOne({
       _id: req.params.id
     },
       (err, data)=> {
@@ -64,7 +64,6 @@ class adminController {
           res.status(500).send(err)
         }
         res.send(data)
-
       })
   }
 
@@ -120,7 +119,11 @@ class adminController {
         var updatable = {
           modelName: req.body.modelName || data.modelName,
           brandName: req.body.brandName || data.brandName,
-          prise: req.body.prise || data.prise
+          prise: req.body.prise || data.prise,
+          ram: req.body.ram || data.ram,
+          rom: req.body.rom || data.rom,
+          batteryCap: req.body.batteryCap || data.batteryCap,
+          camera: req.body.camera || data.camera
         }
 
         Product.findOneAndUpdate({

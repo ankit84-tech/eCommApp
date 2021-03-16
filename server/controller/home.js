@@ -6,7 +6,7 @@ var Product = require("../Database/Products-Schema")
 
 class homeController {
 
-  ///user profile --user id will come from middlewere use that to find user
+  ///user profile
   user_profile(req, res) {
     User.find({
       _id: req.user.userId
@@ -92,9 +92,26 @@ class homeController {
   }
 
   /// delete user's cart item
-
   delete_user_cart(req,
-    res) {}
+    res) {
+    User.findOneAndUpdate({
+      _id: req.user.userId
+    },
+      {
+        $pull: {
+          cart: {
+            _id: req.params.cartItemId
+          }
+        }
+      },
+      (err, data)=> {
+        if (err) {
+          res.status(500).send(err)
+        } else {
+          res.send(data)
+        }
+      })
+  }
 
   //review on products
   review_product(req,
@@ -127,8 +144,14 @@ class homeController {
 
   }
 
-
-
+  //delete review
+  /* delete_review(req,
+    res) {
+    Product.findOneAndUpdate({
+      _id: req.params.
+    })
+  }
+*/
 }
 
 module.exports = new homeController()
