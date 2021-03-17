@@ -6,6 +6,8 @@ var bodyParser = require("body-parser");
 var logger = require('morgan');
 var mongoose = require("mongoose");
 var bodyparser = require("body-parser");
+var cors = require("cors");
+
 
 var app = express();
 
@@ -21,13 +23,13 @@ app.use(bodyparser.urlencoded({
   extended: false
 }));
 app.use(bodyparser.json())
-
+app.use(cors())
 
 ///---all routes -->
 app.use("/admin", require("./routes/admin"))
 app.use("/auth", require("./routes/auth-route"))
 app.use("/user", require("./routes/user-route"))
-app.use("/show-admin", require("./routes/showAdmin"))
+app.use("/", require("./routes/showAdmin"))
 
 /// settings up views
 app.set('views', path.join(__dirname, 'views'));

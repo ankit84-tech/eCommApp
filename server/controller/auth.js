@@ -14,9 +14,7 @@ class authController {
       password
     } = req.body
 
-    if (!username || !password) {
-      res.status(400).send("all required")
-    }
+
     var newAdmin = new Admin({
       username: username,
       password: password
@@ -34,30 +32,31 @@ class authController {
   //login Admin
   login_admin(req,
     res) {
+
     var {
       username,
       password
     } = req.body
 
-    if (!username || !password) {
-      res.status(500).send("all required")
-    }
-    Admin.findOne({
-      username: username, password: password
 
-    }, (err, data)=> {
-      if (err) {
-        res.status(500).send("err ")
-      } else if (!data) {
-        res.status(400).send("user not found")
-      } else {
-        const token = jwt.sign({
-          userId: data._id,
-          role: process.env.ADMINROLE
-        }, process.env.TOKENKEY)
-        res.cookie("token", token).send("logged in successfully")
-      }
-    })
+    Admin.findOne({
+      username: username,
+      password: password
+
+    },
+      (err, data)=> {
+        if (err) {
+          res.status(500).send("err ")
+        } else if (!data) {
+          res.status(400).send("user not found")
+        } else {
+          const token = jwt.sign({
+            userId: data._id,
+            role: process.env.ADMINROLE
+          }, process.env.TOKENKEY)
+          res.cookie("token", token).send("logged in successfully")
+        }
+      })
 
 
   }
